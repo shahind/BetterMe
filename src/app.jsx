@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   Dumbbell, 
   Brain, 
@@ -6,9 +6,9 @@ import {
   Calendar, 
   BookOpen, 
   CheckSquare, 
-  Sparkles,
-  ChevronRight,
-  Share2
+  Sparkles, 
+  ChevronRight, 
+  Share2 
 } from 'lucide-react';
 
 /**
@@ -29,7 +29,7 @@ const APPS = [
     icon: <Dumbbell className="text-blue-600" />, 
     path: '/Core28/', 
     category: 'fitness',
-    gradient: 'from-blue-50/80 to-blue-100/40 dark:from-blue-900/30 dark:to-blue-800/20'
+    gradient: 'from-blue-100/80 to-blue-200/40'
   },
   { 
     id: 'posefix', 
@@ -38,7 +38,7 @@ const APPS = [
     icon: <Sparkles className="text-amber-600" />, 
     path: '/pose-fix/', 
     category: 'fitness',
-    gradient: 'from-amber-50/80 to-amber-100/40 dark:from-amber-900/30 dark:to-amber-800/20'
+    gradient: 'from-amber-100/80 to-amber-200/40'
   },
   { 
     id: 'eq-analyzer', 
@@ -47,7 +47,7 @@ const APPS = [
     icon: <Brain className="text-purple-600" />, 
     path: '/eq-analyzer/', 
     category: 'mindset',
-    gradient: 'from-purple-50/80 to-purple-100/40 dark:from-purple-900/30 dark:to-purple-800/20'
+    gradient: 'from-purple-100/80 to-purple-200/40'
   },
   { 
     id: 'cyclea', 
@@ -56,7 +56,7 @@ const APPS = [
     icon: <Calendar className="text-pink-600" />, 
     path: '/cyclea/', 
     category: 'health',
-    gradient: 'from-pink-50/80 to-pink-100/40 dark:from-pink-900/30 dark:to-pink-800/20'
+    gradient: 'from-pink-100/80 to-pink-200/40'
   },
   { 
     id: 'book-guide', 
@@ -65,7 +65,7 @@ const APPS = [
     icon: <BookOpen className="text-emerald-600" />, 
     path: '/read-track/', 
     category: 'productivity',
-    gradient: 'from-emerald-50/80 to-emerald-100/40 dark:from-emerald-900/30 dark:to-emerald-800/20'
+    gradient: 'from-emerald-100/80 to-emerald-200/40'
   },
   { 
     id: 'todo', 
@@ -74,37 +74,43 @@ const APPS = [
     icon: <CheckSquare className="text-orange-600" />, 
     path: '/todo/', 
     category: 'productivity',
-    gradient: 'from-orange-50/80 to-orange-100/40 dark:from-orange-900/30 dark:to-orange-800/20'
+    gradient: 'from-orange-100/80 to-orange-200/40'
   },
   { 
     id: 'rel-test', 
     name: 'Connection Test', 
     description: 'Analyze and improve your relationship health.',
     icon: <Heart className="text-red-600" />, 
-    path: '/DeepRelTest/', 
+    path: '/rel-test/', 
     category: 'mindset',
-    gradient: 'from-red-50/80 to-red-100/40 dark:from-red-900/30 dark:to-red-800/20'
+    gradient: 'from-red-100/80 to-red-200/40'
   }
 ];
 
 const AppCard = ({ app }) => {
-  const appUrl = `${window.location.origin}${app.path}?from=betterme`;
+  // Navigation logic updated to point to the root domain to match GitHub Pages structure
+  const handleNavigation = () => {
+    const origin = window.location.origin;
+    // We navigate directly to origin + app.path (e.g., shahind.github.io/Core28/)
+    // This bypasses the current /BetterMe/ sub-directory
+    window.location.href = `${origin}${app.path}?from=BetterMe`;
+  };
 
   return (
     <div 
-      onClick={() => window.location.href = appUrl}
-      className={`flex-shrink-0 w-[80%] md:w-80 bg-gradient-to-br ${app.gradient} backdrop-blur-md rounded-[2.5rem] p-8 shadow-sm border border-white/40 dark:border-slate-700/20 hover:shadow-xl hover:-translate-y-2 transition-all duration-500 cursor-pointer group`}
+      onClick={handleNavigation}
+      className={`flex-shrink-0 w-[85%] md:w-80 bg-gradient-to-br ${app.gradient} backdrop-blur-md rounded-[2.5rem] p-8 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 cursor-pointer group mb-4`}
     >
       <div className="flex items-start justify-between mb-8">
-        <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl shadow-sm group-hover:scale-110 transition-transform duration-500">
+        <div className="p-4 bg-white/90 rounded-2xl shadow-sm group-hover:scale-110 transition-transform duration-500">
           {app.icon}
         </div>
-        <div className="p-2.5 rounded-full bg-white/40 dark:bg-slate-800/40">
-          <ChevronRight className="text-slate-400 w-4 h-4" />
+        <div className="p-2.5 rounded-full bg-white/60">
+          <ChevronRight className="text-slate-500 w-4 h-4" />
         </div>
       </div>
-      <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{app.name}</h3>
-      <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-medium opacity-70">
+      <h3 className="text-2xl font-bold text-slate-900 mb-2">{app.name}</h3>
+      <p className="text-sm text-slate-700 leading-relaxed font-medium opacity-80">
         {app.description}
       </p>
     </div>
@@ -117,11 +123,11 @@ const CategorySection = ({ category, apps }) => {
   return (
     <section className="mb-14">
       <div className="px-8 mb-6 text-center md:text-left">
-        <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">{category.name}</h2>
-        <div className="h-1.5 w-10 bg-indigo-500 rounded-full mt-2 mx-auto md:mx-0 opacity-40"></div>
+        <h2 className="text-2xl font-black text-slate-900 tracking-tight">{category.name}</h2>
+        <div className="h-1.5 w-10 bg-indigo-500 rounded-full mt-2 mx-auto md:mx-0 opacity-60"></div>
       </div>
       
-      <div className="flex overflow-x-auto pb-8 px-8 gap-8 no-scrollbar scroll-smooth">
+      <div className="flex overflow-x-auto py-4 pb-8 px-8 gap-8 no-scrollbar scroll-smooth">
         {apps.map(app => (
           <AppCard key={app.id} app={app} />
         ))}
@@ -149,32 +155,29 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-animate text-slate-900 selection:bg-indigo-100 dark:text-white transition-colors">
-      {/* Header - Transparent/Minimal */}
+    <div className="min-h-screen bg-animate text-slate-900 selection:bg-indigo-100 transition-colors">
       <header className="fixed top-0 left-0 right-0 z-20 px-6 py-6 flex justify-end">
         <button 
           onClick={handleShare}
-          className="p-3 bg-white/30 dark:bg-slate-900/30 backdrop-blur-md border border-white/40 dark:border-slate-700/30 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all text-slate-800 dark:text-slate-200 shadow-sm"
+          className="p-3 bg-white/40 backdrop-blur-md border border-white/40 hover:bg-white/60 rounded-full transition-all text-slate-800 shadow-sm"
         >
           <Share2 className="w-6 h-6" />
         </button>
       </header>
 
       <main className="max-w-6xl mx-auto pt-16 pb-20">
-        {/* Central Brand Hero Section */}
         <div className="px-8 mb-24 flex flex-col items-center text-center">
-          <div className="w-24 h-24 bg-indigo-600 rounded-[2rem] flex items-center justify-center shadow-2xl shadow-indigo-300 dark:shadow-none mb-8 animate-pulse-slow">
+          <div className="w-24 h-24 bg-indigo-600 rounded-[2rem] flex items-center justify-center shadow-2xl shadow-indigo-300 mb-8 animate-pulse-slow">
             <Sparkles className="text-white w-12 h-12" />
           </div>
-          <h1 className="text-5xl font-black tracking-tighter mb-4 uppercase bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-700 dark:from-white dark:to-slate-400">
+          <h1 className="text-5xl font-black tracking-tighter mb-4 uppercase bg-clip-text text-transparent bg-gradient-to-b from-slate-900 to-slate-700">
             BetterMe
           </h1>
-          <p className="text-xl font-semibold text-slate-500 dark:text-slate-400 tracking-wide">
+          <p className="text-xl font-semibold text-slate-600 tracking-wide">
             Discover a better version of yourself.
           </p>
         </div>
 
-        {/* Categories */}
         <div className="space-y-6">
           {CATEGORIES.map(cat => (
             <CategorySection 
@@ -197,13 +200,7 @@ export default function App() {
         }
 
         .bg-animate {
-          background: linear-gradient(-45deg, #f8fafc, #f1f5f9, #eef2ff, #f5f3ff);
-          background-size: 400% 400%;
-          animation: gradientShift 15s ease infinite;
-        }
-
-        .dark .bg-animate {
-          background: linear-gradient(-45deg, #020617, #0f172a, #1e1b4b, #020617);
+          background: linear-gradient(-45deg, #f1f5f9, #e2e8f0, #eef2ff, #f5f3ff) !important;
           background-size: 400% 400%;
           animation: gradientShift 15s ease infinite;
         }
@@ -216,11 +213,13 @@ export default function App() {
           animation: pulse-slow 4s ease-in-out infinite;
         }
 
-        @font-face {
-          font-family: 'Inter';
-          src: url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        body { 
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          overflow-x: hidden; 
+          margin: 0; 
+          background-color: #f1f5f9 !important;
+          color: #0f172a !important;
         }
-        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
       `}} />
     </div>
   );
